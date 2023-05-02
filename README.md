@@ -33,3 +33,37 @@ Compare os resultados de classificação dos três algoritmos. Apresente as mét
 * Detalhamento e justificativa das metodologias utilizadas;
 * Análise dos códigos entregues;
 * Apresentação expositiva dos resultados.
+
+# Métricas de Sucesso
+
+## Matriz de Confusão 
+
+Antes de apresentas as métricas de sucesso do modelo de classificação, da por sua matriz de confusão, precisamos nos familiarizar com certos termos e nomenclaturas.
+
+**True Negative (tn)** = verdadeiro negativo
+**False Positive (fp)** = falso positivo
+**False Negative (fn)** = falso negativo
+**True Positive (tp)** = verdadeiro positivo
+
+## Medidas
+
+### PRECISÃO 
+```
+    precision = tp / (tp + fp)
+```
+quantifica amostras recuperadas que são relevantes
+****
+### REVOCAÇÃO (RECALL)
+```
+    recall = tp / (tp + fn)
+```
+quantifica amostras relevantes que são recuperadas
+****
+### ACURÁCIA 
+```python
+    accuracy = (tp + tn) / (tp + tn + fp + fn)
+```
+### F1-SCORE
+```
+    f1-score = 2 * (p * r) / (p + r)
+```
