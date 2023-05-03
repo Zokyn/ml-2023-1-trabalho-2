@@ -8,6 +8,27 @@ from sklearn.preprocessing import LabelEncoder
 
 # lendo o dataset
 df = pd.read_excel('dataset.xlsx')
+### CORRELAÇÕES
+def correlations_display():
+      # exibindo correlações
+      correlations = df.corrwith(df['SARS-Cov-2 exam result'])
+      print('columns with greater correlations')
+      print(correlations.sort_values(ascending=False).head(10))
+      print('\n\n')
+      print('columns with smaller correlations')
+      print(correlations.sort_values(ascending=True).head(10))
+      print('\n\n')
+      print(correlations.abs().sort_values(ascending=False).head(10))
+      print('\n\n')
+      
+### RESULTADOS
+# calculando acurácia
+def display_results(model):
+      prds = model.predict(X_test)
+      tn, fp, fn, tp = confusion_matrix(y_test, prds).ravel()
+      print(f'tn {tn}, fp {fp}, fn {fn}, tp {tp}', '\n\n',
+            'Accuracy:', (accuracy_score(y_test, prds)), '\n\n',
+            'Classification Report:\n', (classification_report(y_test, prds)))
 
 ### PRE-PROCESSAMENTO
 # removendo colunas irrelevantes
@@ -27,19 +48,6 @@ print(df['SARS-Cov-2 exam result'].value_counts(normalize=True))
 df = df[df.columns[df.isna().sum()/df.shape[0] < 0.9]]
 df = df.fillna(df.median())
 
-### CORRELAÇÕES
-def correlations_display():
-      # exibindo correlações
-      correlations = df.corrwith(df['SARS-Cov-2 exam result'])
-      print('columns with greater correlations')
-      print(correlations.sort_values(ascending=False).head(10))
-      print('\n\n')
-      print('columns with smaller correlations')
-      print(correlations.sort_values(ascending=True).head(10))
-      print('\n\n')
-      print(correlations.abs().sort_values(ascending=False).head(10))
-      print('\n\n')
-
 ### TREINAMENTO
 # criando listas X (features) e y (resultado esperado)
 # X = df[['Platelets', 'Leukocytes', 'Monocytes', 'Patient age quantile']]
@@ -49,14 +57,6 @@ y = df['SARS-Cov-2 exam result']
 # separando 66% do dataset para treinamento e 33% para validação
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.33, random_state=101)
 
-### RESULTADOS
-# calculando acurácia
-def display_results(model):
-      prds = model.predict(X_test)
-      tn, fp, fn, tp = confusion_matrix(y_test, prds).ravel()
-      print(f'tn {tn}, fp {fp}, fn {fn}, tp {tp}', '\n\n',
-            'Accuracy:', (accuracy_score(y_test, prds)), '\n\n',
-            'Classification Report:\n', (classification_report(y_test, prds)))
 
 # criando o modelo e treinando
 model = KNeighborsClassifier(n_neighbors=7)
